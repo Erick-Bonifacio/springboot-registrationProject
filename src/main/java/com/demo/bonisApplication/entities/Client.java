@@ -1,12 +1,15 @@
 package com.demo.bonisApplication.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,6 +22,9 @@ public class Client implements Serializable{
 	private Long id;
 	private String name;
 	private String phone;
+	
+	@OneToMany(mappedBy ="owner")
+	private List<Order> orders = new ArrayList<>();
 
 	public Client() {}
 
@@ -55,6 +61,10 @@ public class Client implements Serializable{
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
+	}
+	
+	public List<Order> getOrders() {
+		return orders;
 	}
 
 	@Override
