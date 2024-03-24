@@ -1,11 +1,15 @@
 package com.demo.bonisApplication.resources;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.bonisApplication.entities.Client;
+import com.demo.bonisApplication.services.ClientService;
 
 
 
@@ -13,10 +17,13 @@ import com.demo.bonisApplication.entities.Client;
 @RequestMapping(value="/clients")
 public class ClientResource {
 	
+	@Autowired
+	private ClientService service;
+	
 	@GetMapping
-	public ResponseEntity<Client> findAll(){
-		Client erick = new Client(1L, "Erick", "119938117055");
-		return ResponseEntity.ok().body(erick);
+	public ResponseEntity<List<Client>> findAll(){
+		List<Client> list = service.findAll();
+		return ResponseEntity.ok().body(list);
 	}
 	
 	
