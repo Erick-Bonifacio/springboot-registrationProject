@@ -12,13 +12,17 @@ import com.demo.bonisApplication.entities.Client;
 import com.demo.bonisApplication.entities.Order;
 import com.demo.bonisApplication.entities.enums.Status;
 import com.demo.bonisApplication.repositories.ClientRepository;
+import com.demo.bonisApplication.repositories.OrderRepository;
 
 @Configuration
 @Profile("test")
 public class TestConfig implements CommandLineRunner{
 
-	@Autowired //auto injecao de dependencia
+	@Autowired
 	private ClientRepository clientRepository;
+	
+	@Autowired
+	private OrderRepository orderRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -28,7 +32,7 @@ public class TestConfig implements CommandLineRunner{
 		Order o1 = new Order(null, "Pia da cozinha", 2000.00, new Date(), Status.PRODUCING, c1);
 		Order o2 = new Order(null, "Moveis da sala", 8000.00, new Date(), Status.WAYTING_PAYMENT, c2);
 		
-		
 		clientRepository.saveAll(Arrays.asList(c1,c2));
+		orderRepository.saveAll(Arrays.asList(o1, o2));
 	}
 }
