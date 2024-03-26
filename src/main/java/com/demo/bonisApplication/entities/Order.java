@@ -1,6 +1,8 @@
 package com.demo.bonisApplication.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import com.demo.bonisApplication.entities.enums.Status;
@@ -11,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,6 +26,10 @@ public class Order {
 	private String description;
 	private double price;
 	private Date date;
+	
+	@OneToMany
+	private List<Category> categories = new ArrayList<>();
+	
 	private Integer status;
 	
 	@ManyToOne
@@ -32,7 +39,6 @@ public class Order {
 	public Order() {}
 
 	public Order(Long id, String description, Double price, Date date, Status status, Client owner) {
-		super();
 		this.id = id;
 		this.description = description;
 		this.price = price;
@@ -82,6 +88,10 @@ public class Order {
 	public Integer getStatus() {
 		return status;
 	}
+	
+	public List<Category> getCategories() {
+		return categories;
+	}
 
 	public void setStatus(Integer status) {
 		this.status = status;
@@ -111,8 +121,5 @@ public class Order {
 		Order other = (Order) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
-	
 	
 }
