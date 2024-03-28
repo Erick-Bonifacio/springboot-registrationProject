@@ -2,7 +2,6 @@ package com.demo.bonisApplication.config;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -35,6 +34,8 @@ public class TestConfig implements CommandLineRunner{
 		Client c1 = new Client(null, "Erick", "119999992");
 		Client c2 = new Client(null, "Elcio", "119999993");
 		
+		clientRepository.saveAll(Arrays.asList(c1,c2));
+		
 		Order o1 = new Order(null, "Pia da cozinha", 2000.00, new Date(), Status.PRODUCING, c1);
 		Order o2 = new Order(null, "Sala e Cozinha completas", 8000.00, new Date(), Status.WAYTING_PAYMENT, c2);
 		
@@ -42,12 +43,11 @@ public class TestConfig implements CommandLineRunner{
 		Category cat2 = new Category(null, "Marmoraria");
 		
 		categoryRepository.saveAll(Arrays.asList(cat1, cat2));
+		orderRepository.saveAll(Arrays.asList(o1, o2));
 		
-		Optional<Category> obj1 = categoryRepository.findById(cat1.getId());
-		Optional<Category> obj2 = categoryRepository.findById(cat2.getId());
 		
-		o1.getCategories().add(obj1.get());
-		o2.getCategories().addAll(Arrays.asList(obj2.get()));
+		o1.getCategories().add(cat1);
+		o2.getCategories().addAll(Arrays.asList(cat1, cat2));
 		
 		clientRepository.saveAll(Arrays.asList(c1,c2));
 		orderRepository.saveAll(Arrays.asList(o1, o2));
