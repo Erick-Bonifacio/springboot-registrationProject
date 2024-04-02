@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -40,7 +41,10 @@ public class Order {
 	@JoinColumn(name = "owner_id")
 	private Client owner;
 	
-	public Order() {}
+	@OneToMany
+	private List<Payment> payments = new ArrayList<>();
+	
+	public Order(){}
 
 	public Order(Long id, String description, Double price, Date date, Status status, Client owner) {
 		this.id = id;
@@ -108,6 +112,10 @@ public class Order {
 	public void setOwner(Client owner) {
 		this.owner = owner;
 	}
+	
+	public List<Payment> getPayments() {
+			return payments;
+		}
 
 	@Override
 	public int hashCode() {

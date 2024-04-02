@@ -4,10 +4,13 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,15 +21,20 @@ public class Payment implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Double value;
+	private Double total;
 	private Date date;
+	
+	@JsonIgnore
+	@OneToOne
+	private Order correspondingOrder;
 	
 	public Payment() {}
 
-	public Payment(Long id, Double value, Date date) {
+	public Payment(Long id, Double total, Date date, Order order) {
 		this.id = id;
-		this.value = value;
+		this.total = total;
 		this.date = date;
+		correspondingOrder = order;
 	}
 
 	public Long getId() {
@@ -37,12 +45,12 @@ public class Payment implements Serializable {
 		this.id = id;
 	}
 
-	public Double getValue() {
-		return value;
+	public Double getTotal() {
+		return total;
 	}
 
-	public void setValue(Double value) {
-		this.value = value;
+	public void setValue(Double total) {
+		this.total = total;
 	}
 
 	public Date getDate() {
@@ -52,6 +60,17 @@ public class Payment implements Serializable {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+	
+	public Order getCorrespondingOrder() {
+		return correspondingOrder;
+	}
+
+	public void setCorrespondingOrder(Order correspondingOrder) {
+		this.correspondingOrder = correspondingOrder;
+	}
+	
+	
+
 
 	@Override
 	public int hashCode() {
@@ -69,7 +88,5 @@ public class Payment implements Serializable {
 		Payment other = (Payment) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
 
 }
