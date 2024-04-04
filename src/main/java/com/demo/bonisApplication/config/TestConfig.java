@@ -38,6 +38,7 @@ public class TestConfig implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		Client c1 = new Client(null, "Erick", "119999992");
 		Client c2 = new Client(null, "Elcio", "119999993");
+		Client c3 = new Client(null, "Maria", "119993993");
 		
 		clientRepository.saveAll(Arrays.asList(c1,c2));
 		
