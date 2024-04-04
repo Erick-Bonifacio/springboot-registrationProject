@@ -28,6 +28,8 @@ public class Client implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy ="owner")
 	private List<Order> orders = new ArrayList<>();
+	
+	private Double totalOrders = 0.0;
 
 	public Client() {}
 
@@ -82,4 +84,13 @@ public class Client implements Serializable{
 		return Objects.equals(id, other.id);
 	}
 
+	public Double getTotalOrders() {
+		return totalOrders;
+	}
+	
+	public void refreshTotalOrders() {
+		for(Order x : orders) {
+			totalOrders += x.getPrice();
+		}
+	}
 }

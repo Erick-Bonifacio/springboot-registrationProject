@@ -1,7 +1,9 @@
 package com.demo.bonisApplication.services;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,12 +23,20 @@ public class ClientService {
 	private ClientRepository clientRepository;
 	
 	public List<Client> findAll(){
-		return clientRepository.findAll();
+		return clientRepository.findAll().stream().map(client -> {client.refreshTotalOrders(); return client;}).collect(Collectors.toList());
 	}
 	
 	public Client findById(Long id) {
-		Optional<Client> op = clientRepository.findById(id);
-		return op.get();
+		try {
+			Optional<Client> op = clientRepository.findById(id);
+			if(op.get() != null) {
+				op.get().refreshTotalOrders();
+				}
+			return op.get();
+		}catch(NoSuchElementException e) {
+			throw new ResourceNotFoundException(id);
+		}
+			
 	}
 	
 	public Client insert(Client obj) {
